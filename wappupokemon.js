@@ -14,7 +14,6 @@ class WappuPokemonBot {
   daysToWappu(date,scope) {
 
     let daysLeft = timediff(date, new Date(Date.UTC(date.getFullYear(),4,1, 21)), 'YDHms');
-    scope.sendMessage("Now:" + date + " Wappu: " + new Date(Date.UTC(date.getFullYear(),4,0, 21)));
     if (daysLeft.days == 0 && daysLeft.seconds <= 0)
       daysLeft = 0
     if (daysLeft < 0)
