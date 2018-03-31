@@ -12,6 +12,7 @@ class WappuPokemonBot {
 
 
   daysToWappu(date) {
+
     let daysLeft = timediff(date.now, new Date(date.getFullYear(),4,1), 'YDHms');
     if (daysLeft.days == 0 && daysLeft.seconds <= 0)
       daysLeft = 0
@@ -33,14 +34,15 @@ class WappuPokemonBot {
     });
   }
 
-  getTodaysPokemon(callback) {
-    let date = new Date();
+  getTodaysPokemon(scope, callback) {
+    console.log(scope);
+    let date = new Date(1000 * scope.update.message.date);
     let daysLeft = this.daysToWappu(date);
     return this.findPokemon(daysLeft, callback);
   }
 
   sendTodaysPokemon(scope) {
-    this.getTodaysPokemon( function (pokemon, number) {
+    this.getTodaysPokemon( scope, function (pokemon, number) {
           if (number == 0)
             scope.sendMessage("Hyvää Wappua!!");
           else
