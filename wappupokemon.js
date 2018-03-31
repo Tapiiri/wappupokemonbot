@@ -50,7 +50,7 @@ class WappuPokemonBot {
   }
 
   sendTodaysFact(scope) {
-      this.getTodaysPokemon( function (name, number, pokemon) {
+      this.getTodaysPokemon( scope, function (name, number, pokemon) {
         if (number == 0)
           scope.sendMessage("Wappu on kiva juttu.");
         else {
