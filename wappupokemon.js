@@ -42,9 +42,9 @@ class WappuPokemonBot {
   sendTodaysPokemon(scope) {
     this.getTodaysPokemon( function (pokemon, number) {
           if (number == 0)
-            scope.sendMessage("Hyvää Wappua!");
+            scope.sendMessage("Hyvää Wappua!!");
           else
-            scope.sendMessage("Today's Pokemon is #" + number + " " + pokemon + "!");
+            scope.sendMessage("Päivän Wappupokemon on #" + number + " " + pokemon + "!");
     })
   }
 
