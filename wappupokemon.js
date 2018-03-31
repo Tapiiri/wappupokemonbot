@@ -11,15 +11,16 @@ class WappuPokemonBot {
   }
 
 
-  daysToWappu(date) {
+  daysToWappu(date,scope) {
 
-    let daysLeft = timediff(date.now, new Date(Date.UTC(date.getFullYear(),4,1, 21)), 'YDHms');
+    let daysLeft = timediff(date, new Date(Date.UTC(date.getFullYear(),4,1, 21)), 'YDHms');
+    scope.sendMessage("Now:" + date + " Wappu: " + new Date(Date.UTC(date.getFullYear(),4,0, 21)));
     if (daysLeft.days == 0 && daysLeft.seconds <= 0)
       daysLeft = 0
     if (daysLeft < 0)
-      daysLeft = timediff(date.now, new Date(Date.UTC(date.getFullYear() + 1,4,1, 21)), 'YDHms').days + 1;
+      daysLeft = timediff(date, new Date(Date.UTC(date.getFullYear() + 1,4,1, 21)), 'YDHms').days + 1;
     else {
-      daysLeft = daysLeft.days + 1;
+      daysLeft = daysLeft.days;
     }
     return daysLeft;
   }
@@ -36,7 +37,7 @@ class WappuPokemonBot {
 
   getTodaysPokemon(scope, callback) {
     let date = new Date(1000 * scope.update.message.date);
-    let daysLeft = this.daysToWappu(date);
+    let daysLeft = this.daysToWappu(date, scope);
     return this.findPokemon(daysLeft, callback);
   }
 
