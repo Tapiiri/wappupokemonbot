@@ -67,7 +67,13 @@ class WappuPokemonBot {
 
       let date = new Date();
       let daysLeft = this.daysToWappu(date);
+    
+      if (daysLeft == 0 || daysLeft > 56) {
+        return scope.sendMessage("MISSINGNO");
+      }
+    
       let stickerNo = this.getStikerNumberFromDaysLeft(daysLeft);
+       
 
       this.getStickerSet("ilmarit", function (res) {
         console.log("Jees", res)
