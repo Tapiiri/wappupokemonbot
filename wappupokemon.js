@@ -16,7 +16,7 @@ class WappuPokemonBot {
     let daysLeft = timediff(date, new Date(Date.UTC(date.getFullYear(),4,1, 21)), 'YDHms');
     if (daysLeft.days == 0 && daysLeft.seconds <= 0)
       daysLeft = -1
-    if (daysLeft < 0)
+    if (daysLeft.days < 0)
       daysLeft = timediff(date, new Date(Date.UTC(date.getFullYear() + 1,4,1, 21)), 'YDHms').days;
     else {
       daysLeft = daysLeft.days;
