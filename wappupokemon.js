@@ -15,9 +15,9 @@ class WappuPokemonBot {
 
     let daysLeft = timediff(date, new Date(Date.UTC(date.getFullYear(),4,1, 21)), 'YDHms');
     if (daysLeft.days == 0 && daysLeft.seconds <= 0)
-      daysLeft = 0
+      daysLeft = -1
     if (daysLeft < 0)
-      daysLeft = timediff(date, new Date(Date.UTC(date.getFullYear() + 1,4,1, 21)), 'YDHms').days + 1;
+      daysLeft = timediff(date, new Date(Date.UTC(date.getFullYear() + 1,4,1, 21)), 'YDHms').days;
     else {
       daysLeft = daysLeft.days;
     }
@@ -42,16 +42,16 @@ class WappuPokemonBot {
 
   sendTodaysPokemon(scope) {
     this.getTodaysPokemon( scope, function (pokemon, number) {
-          if (number == 0)
+          if (number == -1)
             scope.sendMessage("Hyvää Wappua!!");
           else
-            scope.sendMessage("Päivän Wappupokemon on #" + number + " " + pokemon + "!");
+            scope.sendMessage("Päivän Wappupokemon on #" + number + " " + (pokemon || "Missingno") + "!");
     })
   }
 
   sendTodaysFact(scope) {
       this.getTodaysPokemon( scope, function (name, number, pokemon) {
-        if (number == 0)
+        if (number == -1)
           scope.sendMessage("Wappu on kiva juttu.");
         else {
           let pokedexKeys = Object.keys(pokemon.pokedex_entries);
@@ -85,12 +85,8 @@ class WappuPokemonBot {
 
 
   getStikerNumberFromDaysLeft(daysLeft) {
-    if (daysLeft == 56)
-      return 0
-      //Wappu, hell breaks loose TODO: Figure out sticker for this
-    else if (daysLeft > 56)
-      return 0
-      //Figure out something
+    if (daysLeft > 56)
+      return 56
     else
       return 56 - daysLeft;
   }
