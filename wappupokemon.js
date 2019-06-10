@@ -107,7 +107,7 @@ class WappuPokemonBot {
           data = JSON.parse(data);
           callback(data);
         } catch (exc) {
-          console.err(exc);
+          console.log(exc);
         }
       }
     }
