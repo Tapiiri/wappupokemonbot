@@ -83,7 +83,7 @@ class WappuPokemonBot {
       const date = new Date();
       const daysLeft = this.daysToWappu(date);
     
-      const stickerNo = this.getStikerNumberFromDaysLeft(daysLeft);
+      const stickerNo = this.getStickerNumberFromDaysLeft(daysLeft);
        
 
       this.getStickerSet("ilmarit", function (res) {
@@ -94,7 +94,7 @@ class WappuPokemonBot {
   }
 
 
-  getStikerNumberFromDaysLeft(daysLeft) {
+  getStickerNumberFromDaysLeft(daysLeft) {
     if (daysLeft > 56)
       return 56
     else
@@ -102,7 +102,7 @@ class WappuPokemonBot {
   }
 
   getStickerSet(name, callback) {
-    let url = "https://api.telegram.org/bot598270459:AAG_lB4OQAcusUovmDfkvDd44dJDok0Gny0/getStickerSet?name="+name;
+    const url = "https://api.telegram.org/bot598270459:AAG_lB4OQAcusUovmDfkvDd44dJDok0Gny0/getStickerSet?name="+name;
 
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
