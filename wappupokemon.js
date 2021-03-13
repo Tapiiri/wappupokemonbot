@@ -102,7 +102,8 @@ class WappuPokemonBot {
   }
 
   getStickerSet(name, callback) {
-    const url = "https://api.telegram.org/bot598270459:AAG_lB4OQAcusUovmDfkvDd44dJDok0Gny0/getStickerSet?name="+name;
+    const token = process.env.TELEGRAM_BOT_TOKEN
+    const url = "https://api.telegram.org/bot" + token + "/getStickerSet?name="+name;
 
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
