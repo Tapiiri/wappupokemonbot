@@ -12,32 +12,32 @@ class WappuPokemonBot {
 
 
   daysToWappu(date,scope) {
-
-    let daysLeft = timediff(date, new Date(Date.UTC(date.getFullYear(),4,1, 21)), 'YDHms');
-    if (daysLeft.days == 0 && daysLeft.seconds <= 0)
-      daysLeft = -1
-    else if (daysLeft.days < 0)
-      daysLeft = timediff(date, new Date(Date.UTC(date.getFullYear() + 1,4,1, 21)), 'YDHms').days;
-    else {
-      daysLeft = daysLeft.days;
+    const daysLeft = timediff(date, new Date(Date.UTC(date.getFullYear(),4,1, 21)), 'YDHms');
+    if (daysLeft.days == 0 && daysLeft.seconds <= 0) {
+      return -1
     }
-    return daysLeft;
+    if (daysLeft.days < 0) {
+      const daysLeftToNextYear = timediff(date, new Date(Date.UTC(date.getFullYear() + 1,4,1, 21)), 'YDHms').days;
+      return daysLeftToNextYear
+    }
+    return daysLeft.days;
   }
 
 
   findPokemon(number, callback) {
     oakdexPokedex.findPokemon(number, function (pokemon) {
-      let name = "";
-      if (pokemon)
-        name = pokemon.names.en;
+      const name = pokemon
+        ? pokemon.names.en
+        : "Missingno";
       callback(name, number, pokemon)
     });
   }
 
   getTodaysPokemon(scope, callback) {
-    let date = new Date(1000 * scope.update.message.date);
-    let daysLeft = this.daysToWappu(date, scope);
-    return this.findPokemon(daysLeft, callback);
+    const date = new Date(1000 * scope.update.message.date);
+    const daysLeft = this.daysToWappu(date, scope);
+    const todaysPokemon = this.findPokemon(daysLeft, callback);
+    return todaysPokemon
   }
 
   sendTodaysPokemon(scope) {
@@ -45,8 +45,24 @@ class WappuPokemonBot {
           if (number == -1)
             scope.sendMessage("Hyvää Wappua!!");
           else
-            scope.sendMessage("Päivän Wappupokemon on #" + number + " " + (pokemon || "Missingno") + "!");
+            scope.sendMessage("Päivän Wappupokemon on #" + number + " " + pokemon + "!");
     })
+  }
+
+  getRandomIntInclusive(min, max) {
+    const min = Math.ceil(min);
+    const max = Math.floor(max);
+    const randomInt = Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
+    return randomInt
+  }
+
+  getRandomPokedexEntry(entries) {
+    const pokedexKeys = Object.keys(entries);
+    const entriesLength = pokedexKeys.length;
+    const messageId = this.getRandomIntInclusive(0, entriesLength-1);
+    const entryKey = pokedexKeys[messageId];
+    const pokedexEntry = entries[entryKey].en;
+    return pokedexEntry
   }
 
   sendTodaysFact(scope) {
@@ -54,10 +70,9 @@ class WappuPokemonBot {
         if (number == -1)
           scope.sendMessage("Wappu on kiva juttu.");
         else {
-          let pokedexKeys = Object.keys(pokemon.pokedex_entries);
-          let entriesLength = pokedexKeys.length;
-          let messageId = this.getRandomIntInclusive(0, entriesLength-1);
-          scope.sendMessage(pokemon.pokedex_entries[pokedexKeys[messageId]].en);
+          const pokedexEntries = pokemon.pokedex_entries;
+          const pokedexEntry = getRandomPokedexEntry(pokedexEntries);
+          scope.sendMessage(pokedexEntry);
         }
       }.bind(this))
   }
@@ -65,26 +80,21 @@ class WappuPokemonBot {
   sendTodaysSticker(scope) {
 
 
-      let date = new Date();
-      let daysLeft = this.daysToWappu(date);
+      const date = new Date();
+      const daysLeft = this.daysToWappu(date);
     
-      if (false && (daysLeft == 0 || daysLeft > 56)) {
-        return scope.sendMessage("Not missingno, is test");
-      }
-    
-      let stickerNo = this.getStikerNumberFromDaysLeft(daysLeft);
+      const stickerNo = this.getStickerNumberFromDaysLeft(daysLeft);
        
 
       this.getStickerSet("ilmarit", function (res) {
-        console.log("Jees", res)
-        console.log(res.result.stickers[stickerNo]);
-        scope.sendSticker(res.result.stickers[stickerNo].file_id);
+        const sticker = res.result.stickers[stickerNo].file_id;
+        scope.sendSticker(sticker);
       });
 
   }
 
 
-  getStikerNumberFromDaysLeft(daysLeft) {
+  getStickerNumberFromDaysLeft(daysLeft) {
     if (daysLeft > 56)
       return 56
     else
@@ -92,7 +102,7 @@ class WappuPokemonBot {
   }
 
   getStickerSet(name, callback) {
-    let url = "https://api.telegram.org/bot598270459:AAG_lB4OQAcusUovmDfkvDd44dJDok0Gny0/getStickerSet?name="+name;
+    const url = "https://api.telegram.org/bot598270459:AAG_lB4OQAcusUovmDfkvDd44dJDok0Gny0/getStickerSet?name="+name;
 
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
@@ -109,13 +119,6 @@ class WappuPokemonBot {
     }
 
     xhr.send();
-  }
-
-
-  getRandomIntInclusive(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
   }
 }
 
