@@ -14,5 +14,6 @@
     "telegram-node-bot": "^4.0.5",
     "timediff": "^1.1.1",
     "xmlhttprequest": "^1.8.0"
+    "dotenv": "latest"
   }
 }
