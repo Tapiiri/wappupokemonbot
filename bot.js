@@ -1,9 +1,11 @@
 'use strict'
 
+require('dotenv').config()
+const token = process.env.TELEGRAM_BOT_TOKEN
 const Telegram = require('telegram-node-bot')
 const TelegramBaseController = Telegram.TelegramBaseController
 const TextCommand = Telegram.TextCommand
-const tg = new Telegram.Telegram('598270459:AAG_lB4OQAcusUovmDfkvDd44dJDok0Gny0')
+const tg = new Telegram.Telegram(token)
 
 const WappuPokemonBot = require('./wappupokemon')
 
