@@ -24,6 +24,13 @@ class WappuPokemonBot {
     return daysLeft;
   }
 
+  testTime(scope, callback) {
+      const date = new Date(1000 * scope.update.message.date);
+      const timeLeft = timediff(date, new Date(Date.UTC(date.getFullYear(),4,1, 17)), 'YDHms');
+      scope.sendMessage("" + timeLeft.hours + " " + timeLeft.minutes)
+      scope.sendMessage(this.daysToWappu(date, scope))
+  }
+
 
   findPokemon(number, callback) {
     oakdexPokedex.findPokemon(number, function (pokemon) {

@@ -27,11 +27,17 @@ class PingController extends TelegramBaseController {
       wappuPokemonBot.sendTodaysSticker($);
     }
 
+    timeTest($) {
+      let wappuPokemonBot = new WappuPokemonBot.WappuPokemonBot();
+      wappuPokemonBot.testTime($);
+    }
+
     get routes() {
         return {
             'wappupokemon': 'pokemonHandler',
             'pokemonfact': 'factHandler',
-            'sticker': 'stickerHandler'
+            'sticker': 'stickerHandler',
+            'timetest': 'timeTest'
         }
     }
 }
@@ -45,5 +51,8 @@ tg.router
         new PingController()
     ).when(
         new TextCommand('/sticker', 'sticker'),
+        new PingController()
+    ).when(
+        new TextCommand('/timetest', 'timetest'),
         new PingController()
     )
