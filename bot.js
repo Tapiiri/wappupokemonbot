@@ -41,8 +41,7 @@ class PingController extends TelegramBaseController {
         return {
             'wappupokemon': 'pokemonHandler',
             'pokemonfact': 'factHandler',
-            'sticker': 'stickerHandler',
-            'timetest': 'timeTest'
+            'sticker': 'stickerHandler'
         }
     }
 }
@@ -56,8 +55,5 @@ tg.router
         new PingController()
     ).when(
         new TextCommand('/sticker', 'sticker'),
-        new PingController()
-    ).when(
-        new TextCommand('/timetest', 'timetest'),
         new PingController()
     )

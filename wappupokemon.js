@@ -26,14 +26,6 @@ class WappuPokemonBot {
     return daysLeft + 1
   }
 
-  testTime(scope, callback) {
-      const date = new Date(1000 * scope.update.message.date);
-      const timeLeft = timediff(date, new Date(Date.UTC(date.getFullYear(),4,1, 17)), 'YDHms');
-      scope.sendMessage("" + timeLeft.hours + " " + timeLeft.minutes)
-      scope.sendMessage(this.daysToWappu(date, targetDate))
-  }
-
-
   findPokemon(number, callback) {
     oakdexPokedex.findPokemon(number, function (pokemon) {
       const name = pokemon
@@ -45,8 +37,8 @@ class WappuPokemonBot {
 
   getTodaysPokemon(scope, callback) {
     const currentDate = new Date(1000 * scope.update.message.date);
-    const targetDate = new Date(Date.UTC(date.getFullYear(),4,1, 21))
-    const daysLeft = this.daysToWappu(date, scope);
+    const targetDate = new Date(Date.UTC(currentDate.getFullYear(),3,30,21))
+    const daysLeft = this.daysToWappu(currentDate, targetDate);
     const todaysPokemon = this.findPokemon(daysLeft, callback);
     return todaysPokemon
   }
