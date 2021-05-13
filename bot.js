@@ -4,11 +4,11 @@ require('dotenv').config()
 const Telegram = require('telegram-node-bot')
 const TelegramBaseController = Telegram.TelegramBaseController
 const TextCommand = Telegram.TextCommand
-if (!process.env.BOT_TOKEN) {
-  console.log("Environment variable BOT_TOKEN not found - shutting down.")
+if (!process.env.TELEGRAM_BOT_TOKEN) {
+  console.log("Environment variable TELEGRAM_BOT_TOKEN not found - shutting down.")
   return
 }
-const tg = new Telegram.Telegram(process.env.BOT_TOKEN)
+const tg = new Telegram.Telegram(process.env.TELEGRAM_BOT_TOKEN)
 
 const WappuPokemonBot = require('./wappupokemon')
 
@@ -22,27 +22,26 @@ class PingController extends TelegramBaseController {
     }
 
     pokemonHandler($) {
-      wappuPokemonBot.sendTodaysPokemon($);
+      this.wappuPokemonBot.sendTodaysPokemon($);
     }
 
     factHandler($) { 
-      wappuPokemonBot.sendTodaysFact($);
+      this.wappuPokemonBot.sendTodaysFact($);
     }
 
     stickerHandler($) {
-      wappuPokemonBot.sendTodaysSticker($);
+      this.wappuPokemonBot.sendTodaysSticker($);
     }
 
     timeTest($) {
-      wappuPokemonBot.testTime($);
+      this.wappuPokemonBot.testTime($);
     }
 
     get routes() {
         return {
             'wappupokemon': 'pokemonHandler',
             'pokemonfact': 'factHandler',
-            'sticker': 'stickerHandler',
-            'timetest': 'timeTest'
+            'sticker': 'stickerHandler'
         }
     }
 }
@@ -56,8 +55,5 @@ tg.router
         new PingController()
     ).when(
         new TextCommand('/sticker', 'sticker'),
-        new PingController()
-    ).when(
-        new TextCommand('/timetest', 'timetest'),
         new PingController()
     )
