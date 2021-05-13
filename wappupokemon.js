@@ -1,15 +1,10 @@
 const oakdexPokedex = require('oakdex-pokedex');
 const timediff = require('timediff');
+require('dotenv').config()
 
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 class WappuPokemonBot {
-
-  construtor() {
-
-
-  }
-
 
   daysToWappu(date,scope) {
 
@@ -75,10 +70,6 @@ class WappuPokemonBot {
       let date = new Date();
       let daysLeft = this.daysToWappu(date);
     
-      if (false && (daysLeft == 0 || daysLeft > 56)) {
-        return scope.sendMessage("Not missingno, is test");
-      }
-    
       let stickerNo = this.getStikerNumberFromDaysLeft(daysLeft);
        
 
@@ -99,7 +90,7 @@ class WappuPokemonBot {
   }
 
   getStickerSet(name, callback) {
-    let url = "https://api.telegram.org/bot598270459:AAG_lB4OQAcusUovmDfkvDd44dJDok0Gny0/getStickerSet?name="+name;
+    let url = "https://api.telegram.org/bot"+ process.env.BOT_TOKEN + "/getStickerSet?name="+name;
 
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
