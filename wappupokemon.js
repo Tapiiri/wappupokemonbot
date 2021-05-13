@@ -52,9 +52,9 @@ class WappuPokemonBot {
   }
 
   getRandomIntInclusive(min, max) {
-    const min = Math.ceil(min);
-    const max = Math.floor(max);
-    const randomInt = Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
+    const minInt = Math.ceil(min);
+    const maxInt = Math.floor(max);
+    const randomInt = Math.floor(Math.random() * (maxInt - minInt + 1)) + minInt; //The maximum is inclusive and the minimum is inclusive
     return randomInt
   }
 
@@ -85,11 +85,7 @@ class WappuPokemonBot {
       const date = new Date();
       const daysLeft = this.daysToWappu(date);
     
-<<<<<<< HEAD
       const stickerNo = this.getStickerNumberFromDaysLeft(daysLeft);
-=======
-      let stickerNo = this.getStikerNumberFromDaysLeft(daysLeft);
->>>>>>> f50537905c74bfe8b4106d6b6fa955f2f585edbc
        
 
       this.getStickerSet("ilmarit", function (res) {
@@ -108,12 +104,8 @@ class WappuPokemonBot {
   }
 
   getStickerSet(name, callback) {
-<<<<<<< HEAD
     const token = process.env.TELEGRAM_BOT_TOKEN
     const url = "https://api.telegram.org/bot" + token + "/getStickerSet?name="+name;
-=======
-    let url = "https://api.telegram.org/bot"+ process.env.BOT_TOKEN + "/getStickerSet?name="+name;
->>>>>>> f50537905c74bfe8b4106d6b6fa955f2f585edbc
 
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
