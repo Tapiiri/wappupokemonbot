@@ -8,7 +8,7 @@ if (!process.env.TELEGRAM_BOT_TOKEN) {
   console.log("Environment variable TELEGRAM_BOT_TOKEN not found - shutting down.")
   return
 }
-const tg = new Telegram.Telegram(process.env.BOT_TOKEN)
+const tg = new Telegram.Telegram(process.env.TELEGRAM_BOT_TOKEN)
 
 const WappuPokemonBot = require('./wappupokemon')
 
@@ -22,19 +22,19 @@ class PingController extends TelegramBaseController {
     }
 
     pokemonHandler($) {
-      wappuPokemonBot.sendTodaysPokemon($);
+      this.wappuPokemonBot.sendTodaysPokemon($);
     }
 
     factHandler($) { 
-      wappuPokemonBot.sendTodaysFact($);
+      this.wappuPokemonBot.sendTodaysFact($);
     }
 
     stickerHandler($) {
-      wappuPokemonBot.sendTodaysSticker($);
+      this.wappuPokemonBot.sendTodaysSticker($);
     }
 
     timeTest($) {
-      wappuPokemonBot.testTime($);
+      this.wappuPokemonBot.testTime($);
     }
 
     get routes() {

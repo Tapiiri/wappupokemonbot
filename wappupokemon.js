@@ -6,23 +6,31 @@ var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 class WappuPokemonBot {
 
-  daysToWappu(date,scope) {
-    const daysLeft = timediff(date, new Date(Date.UTC(date.getFullYear(),4,1, 21)), 'YDHms');
-    if (daysLeft.days == 0 && daysLeft.seconds <= 0) {
-      return -1
+  daysToWappu(date, targetDate) {
+    const timeLeft = timediff(date, targetDate, 'YDHms');
+    const daysLeft = timeLeft.days
+    if (daysLeft == 0 && Object.values(timeLeft).every(value => value <= 0)) {
+      return 0
     }
-    if (daysLeft.days < 0) {
-      const daysLeftToNextYear = timediff(date, new Date(Date.UTC(date.getFullYear() + 1,4,1, 21)), 'YDHms').days;
-      return daysLeftToNextYear
+    if (daysLeft < 0) {
+      const timeLeftToNextYear = timediff(date, new Date(Date.UTC(
+            targetDate.getFullYear() + 1, 
+            targetDate.getMonth(),
+            targetDate.getDate(),
+            targetDate.getHours(),
+        )
+      ), 'YDHms');
+      const daysLeftToNextYear = timeLeftToNextYear.days
+      return daysLeftToNextYear + 1
     }
-    return daysLeft.days;
+    return daysLeft + 1
   }
 
   testTime(scope, callback) {
       const date = new Date(1000 * scope.update.message.date);
       const timeLeft = timediff(date, new Date(Date.UTC(date.getFullYear(),4,1, 17)), 'YDHms');
       scope.sendMessage("" + timeLeft.hours + " " + timeLeft.minutes)
-      scope.sendMessage(this.daysToWappu(date, scope))
+      scope.sendMessage(this.daysToWappu(date, targetDate))
   }
 
 
@@ -36,7 +44,8 @@ class WappuPokemonBot {
   }
 
   getTodaysPokemon(scope, callback) {
-    const date = new Date(1000 * scope.update.message.date);
+    const currentDate = new Date(1000 * scope.update.message.date);
+    const targetDate = new Date(Date.UTC(date.getFullYear(),4,1, 21))
     const daysLeft = this.daysToWappu(date, scope);
     const todaysPokemon = this.findPokemon(daysLeft, callback);
     return todaysPokemon
@@ -44,7 +53,7 @@ class WappuPokemonBot {
 
   sendTodaysPokemon(scope) {
     this.getTodaysPokemon( scope, function (pokemon, number) {
-          if (number == -1)
+          if (number == 0)
             scope.sendMessage("Hyvää Wappua!!");
           else
             scope.sendMessage("Päivän Wappupokemon on #" + number + " " + pokemon + "!");
@@ -69,7 +78,7 @@ class WappuPokemonBot {
 
   sendTodaysFact(scope) {
       this.getTodaysPokemon( scope, function (name, number, pokemon) {
-        if (number == -1)
+        if (number == 0)
           scope.sendMessage("Wappu on kiva juttu.");
         else {
           const pokedexEntries = pokemon.pokedex_entries;
@@ -80,14 +89,11 @@ class WappuPokemonBot {
   }
 
   sendTodaysSticker(scope) {
-
-
-      const date = new Date();
+      const date = new Date(1000 * scope.update.message.date);
       const daysLeft = this.daysToWappu(date);
     
       const stickerNo = this.getStickerNumberFromDaysLeft(daysLeft);
        
-
       this.getStickerSet("ilmarit", function (res) {
         const sticker = res.result.stickers[stickerNo].file_id;
         scope.sendSticker(sticker);
