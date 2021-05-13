@@ -1,15 +1,10 @@
 const oakdexPokedex = require('oakdex-pokedex');
 const timediff = require('timediff');
+require('dotenv').config()
 
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 class WappuPokemonBot {
-
-  construtor() {
-
-
-  }
-
 
   daysToWappu(date,scope) {
     const daysLeft = timediff(date, new Date(Date.UTC(date.getFullYear(),4,1, 21)), 'YDHms');
@@ -21,6 +16,13 @@ class WappuPokemonBot {
       return daysLeftToNextYear
     }
     return daysLeft.days;
+  }
+
+  testTime(scope, callback) {
+      const date = new Date(1000 * scope.update.message.date);
+      const timeLeft = timediff(date, new Date(Date.UTC(date.getFullYear(),4,1, 17)), 'YDHms');
+      scope.sendMessage("" + timeLeft.hours + " " + timeLeft.minutes)
+      scope.sendMessage(this.daysToWappu(date, scope))
   }
 
 
@@ -83,7 +85,11 @@ class WappuPokemonBot {
       const date = new Date();
       const daysLeft = this.daysToWappu(date);
     
+<<<<<<< HEAD
       const stickerNo = this.getStickerNumberFromDaysLeft(daysLeft);
+=======
+      let stickerNo = this.getStikerNumberFromDaysLeft(daysLeft);
+>>>>>>> f50537905c74bfe8b4106d6b6fa955f2f585edbc
        
 
       this.getStickerSet("ilmarit", function (res) {
@@ -102,8 +108,12 @@ class WappuPokemonBot {
   }
 
   getStickerSet(name, callback) {
+<<<<<<< HEAD
     const token = process.env.TELEGRAM_BOT_TOKEN
     const url = "https://api.telegram.org/bot" + token + "/getStickerSet?name="+name;
+=======
+    let url = "https://api.telegram.org/bot"+ process.env.BOT_TOKEN + "/getStickerSet?name="+name;
+>>>>>>> f50537905c74bfe8b4106d6b6fa955f2f585edbc
 
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
