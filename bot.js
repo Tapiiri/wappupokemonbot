@@ -1,9 +1,14 @@
 'use strict'
 
+require('dotenv').config()
 const Telegram = require('telegram-node-bot')
 const TelegramBaseController = Telegram.TelegramBaseController
 const TextCommand = Telegram.TextCommand
-const tg = new Telegram.Telegram('598270459:AAG_lB4OQAcusUovmDfkvDd44dJDok0Gny0')
+if (!process.env.BOT_TOKEN) {
+  console.log("Environment variable BOT_TOKEN not found - shutting down.")
+  return
+}
+const tg = new Telegram.Telegram(process.env.BOT_TOKEN)
 
 const WappuPokemonBot = require('./wappupokemon')
 
@@ -11,24 +16,24 @@ class PingController extends TelegramBaseController {
     /**
      * @param {Scope} $
      */
+    constructor() {
+      super()
+      this.wappuPokemonBot = new WappuPokemonBot.WappuPokemonBot();
+    }
 
     pokemonHandler($) {
-      let wappuPokemonBot = new WappuPokemonBot.WappuPokemonBot();
       wappuPokemonBot.sendTodaysPokemon($);
     }
 
-    factHandler($) {
-      let wappuPokemonBot = new WappuPokemonBot.WappuPokemonBot();
+    factHandler($) { 
       wappuPokemonBot.sendTodaysFact($);
     }
 
     stickerHandler($) {
-      let wappuPokemonBot = new WappuPokemonBot.WappuPokemonBot();
       wappuPokemonBot.sendTodaysSticker($);
     }
 
     timeTest($) {
-      let wappuPokemonBot = new WappuPokemonBot.WappuPokemonBot();
       wappuPokemonBot.testTime($);
     }
 
