@@ -74,7 +74,7 @@ class WappuPokemonBot {
           scope.sendMessage("Wappu on kiva juttu.");
         else {
           const pokedexEntries = pokemon.pokedex_entries;
-          const pokedexEntry = getRandomPokedexEntry(pokedexEntries);
+          const pokedexEntry = this.getRandomPokedexEntry(pokedexEntries);
           scope.sendMessage(pokedexEntry);
         }
       }.bind(this))
