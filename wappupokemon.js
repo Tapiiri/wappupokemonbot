@@ -81,8 +81,9 @@ class WappuPokemonBot {
   }
 
   sendTodaysSticker(scope) {
-      const date = new Date(1000 * scope.update.message.date);
-      const daysLeft = this.daysToWappu(date);
+      const currentDate = new Date(1000 * scope.update.message.date);
+      const targetDate = new Date(Date.UTC(currentDate.getFullYear(),3,30,21))
+      const daysLeft = this.daysToWappu(currentDate, targetDate);
     
       const stickerNo = this.getStickerNumberFromDaysLeft(daysLeft);
        
